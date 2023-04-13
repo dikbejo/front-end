@@ -18,6 +18,7 @@ const AppMenu = () => {
             items: [
                 { label: 'Mentor', icon: 'pi pi-fw pi-eye', to: '/latihan/mentor', badge: 'NEW' },
                 { label: 'Mockup', icon: 'pi pi-fw pi-id-card', to: '/latihan/mentor/mockup' },
+                { label: 'Coba', icon: 'pi pi-fw pi-id-card', to: '#' },
             ]
         },
         {
