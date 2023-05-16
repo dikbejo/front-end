@@ -1,7 +1,6 @@
-import getConfig from 'next/config';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEventListener, useUnmountEffect } from 'primereact/hooks';
+import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks';
 import { classNames, DomHandler } from 'primereact/utils';
 import React, { useContext, useEffect, useRef } from 'react';
 import AppFooter from './AppFooter';
@@ -15,7 +14,7 @@ const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
     const topbarRef = useRef(null);
     const sidebarRef = useRef(null);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
+
     const router = useRouter();
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
@@ -63,6 +62,10 @@ const Layout = (props) => {
         DomHandler.removeClass('blocked-scroll');
     };
 
+    useMountEffect(() => {
+        PrimeReact.ripple = true;
+    })
+
     useEffect(() => {
         if (layoutState.overlayMenuActive || layoutState.staticMenuMobileActive) {
             bindMenuOutsideClickListener();
@@ -84,16 +87,12 @@ const Layout = (props) => {
         });
     }, []);
 
-    PrimeReact.ripple = true;
-
     useUnmountEffect(() => {
         unbindMenuOutsideClickListener();
         unbindProfileMenuOutsideClickListener();
     });
 
     const containerClass = classNames('layout-wrapper', {
-        'layout-theme-light': layoutConfig.colorScheme === 'light',
-        'layout-theme-dark': layoutConfig.colorScheme === 'dark',
         'layout-overlay': layoutConfig.menuMode === 'overlay',
         'layout-static': layoutConfig.menuMode === 'static',
         'layout-static-inactive': layoutState.staticMenuDesktopInactive && layoutConfig.menuMode === 'static',
@@ -117,7 +116,7 @@ const Layout = (props) => {
                 <meta property="og:description" content="The ultimate collection of design-agnostic, flexible and accessible React UI Components." />
                 <meta property="og:image" content="https://www.primefaces.org/static/social/sakai-nextjs.png"></meta>
                 <meta property="og:ttl" content="604800"></meta>
-                <link rel="icon" href={`${contextPath}/favicon.ico`} type="image/x-icon"></link>
+                <link rel="icon" href={`/favicon.ico`} type="image/x-icon"></link>
             </Head>
 
             <div className={containerClass}>

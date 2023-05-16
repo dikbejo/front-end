@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import { Button } from 'primereact/button';
 import { Chart } from 'primereact/chart';
 import { Column } from 'primereact/column';
@@ -8,6 +7,8 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ProductService } from '../demo/service/ProductService';
 import { LayoutContext } from '../layout/context/layoutcontext';
 import Link from 'next/link';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 const lineData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
@@ -36,7 +37,6 @@ const Dashboard = () => {
     const menu2 = useRef(null);
     const [lineOptions, setLineOptions] = useState(null);
     const { layoutConfig } = useContext(LayoutContext);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
 
     const applyLightTheme = () => {
         const lineOptions = {
@@ -101,10 +101,8 @@ const Dashboard = () => {
 
         setLineOptions(lineOptions);
     };
-
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProductsSmall().then((data) => setProducts(data));
+        ProductService.getProductsSmall().then((data) => setProducts(data));
     }, []);
 
     useEffect(() => {
@@ -186,7 +184,7 @@ const Dashboard = () => {
                 <div className="card">
                     <h5>Recent Sales</h5>
                     <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column header="Image" body={(data) => <img className="shadow-2" src={`${contextPath}/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
+                        <Column header="Image" body={(data) => <img className="shadow-2" src={`/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
                         <Column field="name" header="Name" sortable style={{ width: '35%' }} />
                         <Column field="price" header="Price" sortable style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
                         <Column
@@ -372,7 +370,7 @@ const Dashboard = () => {
                         <div className="text-white font-medium text-5xl">Try PrimeBlocks</div>
                     </div>
                     <div className="mt-4 mr-auto md:mt-0 md:mr-0">
-                        <Link href="https://www.primefaces.org/primeblocks-react" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
+                        <Link href="https://blocks.primereact.org" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
                             Get Started
                         </Link>
                     </div>

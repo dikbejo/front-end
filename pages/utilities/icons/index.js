@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import React, { useEffect, useState } from 'react';
 import { InputText } from 'primereact/inputtext';
-import { CodeHighlight } from '../../../demo/components/CodeHighlight';
 import { IconService } from '../../../demo/service/IconService';
 import Link from 'next/link';
 
@@ -10,7 +9,7 @@ const IconsDemo = () => {
     const [filteredIcons, setFilteredIcons] = useState([]);
 
     useEffect(() => {
-        new IconService().getIcons().then((data) => {
+        IconService.getIcons().then((data) => {
             data.sort((icon1, icon2) => {
                 if (icon1.properties.name < icon2.properties.name) return -1;
                 else if (icon1.properties.name < icon2.properties.name) return 1;
@@ -51,62 +50,70 @@ const IconsDemo = () => {
 
             <h5>Download</h5>
             <p>PrimeIcons is available at npm, run the following command to download it to your project.</p>
-            <CodeHighlight>
-                {`
-npm install primeicons --save
-`}
-            </CodeHighlight>
+            <pre className="app-code">
+                <code>{`npm install primeicons --save`}</code>
+            </pre>
 
             <h5>Getting Started</h5>
             <p>
                 PrimeIcons use the <strong>pi pi-&#123;icon&#125;</strong> syntax such as <strong>pi pi-check</strong>. A standalone icon can be displayed using an element like <i>i</i> or <i>span</i>
             </p>
 
-            <CodeHighlight>
-                {`
+            <pre className="app-code">
+                <code>
+                    {`
 <i className="pi pi-check" style={{ marginRight: '.5rem' }}></i>
-<i className="pi pi-times"></i>
-`}
-            </CodeHighlight>
+<i className="pi pi-times"></i>`}
+                </code>
+            </pre>
 
             <h5>Size</h5>
             <p>Size of the icons can easily be changed using font-size property.</p>
 
-            <CodeHighlight>
-                {`
+            <pre className="app-code">
+                <code>
+                    {`
 <i className="pi pi-check"></i>
 `}
-            </CodeHighlight>
+                </code>
+            </pre>
 
             <i className="pi pi-check"></i>
 
-            <CodeHighlight>
-                {`
+            <pre className="app-code">
+                <code>
+                    {`
 <i className="pi pi-check" style={{ fontSize: '2rem' }}></i>
 `}
-            </CodeHighlight>
+                </code>
+            </pre>
 
             <i className="pi pi-check" style={{ fontSize: '2rem' }}></i>
 
             <h5>Spinning Animation</h5>
             <p>Special pi-spin class applies continuous rotation to an icon.</p>
-            <CodeHighlight>
-                {`
+            <pre className="app-code">
+                <code>
+                    {`
 <i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem' }}></i>
 `}
-            </CodeHighlight>
+                </code>
+            </pre>
 
             <i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem' }}></i>
 
             <h5>Constants</h5>
             <p>PrimeIcons constants API is provided to easily choose an icon with typescript e.g. when defining a menu model.</p>
-            <CodeHighlight>
-                {`
+            <pre className="app-code">
+                <code>
+                    {`
 <Menu model={items} />
 `}
-            </CodeHighlight>
-            <CodeHighlight lang="js">
-                {`
+                </code>
+            </pre>
+            <pre className="app-code" lang="js">
+                <code>
+                    {`
 import {PrimeIcons} from 'primereact/api';
 
 const items = [
@@ -122,7 +129,8 @@ const items = [
     }
 ]
 `}
-            </CodeHighlight>
+                </code>
+            </pre>
             <h5>List of Icons</h5>
             <p>
                 Here is the current list of PrimeIcons, more icons are added periodically. You may also{' '}

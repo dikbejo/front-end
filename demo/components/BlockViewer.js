@@ -1,7 +1,6 @@
 import { Tooltip } from 'primereact/tooltip';
 import { classNames } from 'primereact/utils';
 import React, { useRef, useState } from 'react';
-import { CodeHighlight } from './CodeHighlight';
 
 const BlockViewer = (props) => {
     const [blockView, setBlockView] = useState('PREVIEW');
@@ -40,7 +39,11 @@ const BlockViewer = (props) => {
                         </div>
                     )}
 
-                    {blockView === 'CODE' && <CodeHighlight>{props.code}</CodeHighlight>}
+                    {blockView === 'CODE' && (
+                        <pre className="app-code">
+                            <code>{props.code}</code>
+                        </pre>
+                    )}
                 </div>
             </div>
         </div>
