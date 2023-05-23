@@ -15,7 +15,7 @@ const AppMenu = () => {
         {
             label: 'Latihan',
             items: [
-                { label: 'Mentor', icon: 'pi pi-fw pi-eye', to: '/latihan/mentor', badge: 'NEW' },
+                { label: 'Ruang Rapat', icon: 'pi pi-fw pi-eye', to: '/latihan/mentor/ruangrapat', badge: 'NEW' },
                 { label: 'Mockup', icon: 'pi pi-fw pi-id-card', to: '/latihan/mentor/mockup' },
                 { label: 'Login', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/login' },
                 { label: 'Coba', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/coba' },
