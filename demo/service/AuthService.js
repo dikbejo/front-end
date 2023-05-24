@@ -31,7 +31,7 @@ const cobaRefreshToken = async()=>{
 
 export const refreshToken = async() => {
     // const [hasil,setHasil] = useState('sss');
-    
+    var hasil = new Object();
     try {
         console.log('refreshToken');
         const res =   await axios.get('http://localhost:4000/login/refreshToken');
@@ -41,17 +41,26 @@ export const refreshToken = async() => {
         // console.log('decoded :' + decoded);
         console.log('berhasil');
         console.log(jwt_decode(res.data.accessToken));
-        return jwt_decode(res.data.accessToken);
+        hasil = new Object();
+        hasil.status = 'ok';
+        hasil.accessToken = res.data.accessToken;
+        hasil.accessTokenDecoded = jwt_decode(res.data.accessToken);
+        return hasil;
         // setNmuser(decoded.nmuser);
         // setExpire(decoded.exp);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
+        hasil.status = 'error';
         if(error.response){
             // router.push('/latihan/mentor/login');
             
             console.log(error.response.data);
-            console.log('error refreshToken1');
-            return (error.response);
+            console.log('error refreshToken');
+            hasil.msg=error.response.data;
+            // return (error.response);
         }
+        console.log(hasil);
+        return hasil;
     }
+    return hasil;
 }

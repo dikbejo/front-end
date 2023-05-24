@@ -5,30 +5,35 @@ import { refreshToken } from '../../../demo/service/AuthService';
 
 
 const HarusLogin = () => {
-    const [user,setUser] = ('');
-    const router = useRouter();
-    useEffect(()=>{
-        try {
-         cek();
-        console.log('useeffect di harus login');
-        } catch (error) {
-    
-            console.log('useeffect error');
-    
-            // router.push('/latihan/mentor/login');
- 
-        }
-        // const d = AuthService.refreshToken();
-        // console.log(d);
-        // console.log('useeffect');
-    },[]);
+  const [user, setUser] = ('');
+  const router = useRouter();
+  useEffect(() => {
+    try {
+      cek();
+      // const d = refreshToken();
+      // console.log('mmmmmmmmmmmmm');
+      // console.log(d);
+      // console.log('useeffect di harus login');
+    } catch (error) {
 
-    const cek = async() => {
-       const d = await  AuthService.refreshToken();
+      console.log('useeffect error');
 
-    // const d = await refreshToken();
-       console.log(d);
+      router.push('/latihan/mentor/login');
+
     }
+    // const d = AuthService.refreshToken();
+    // console.log(d);
+    // console.log('useeffect');
+  }, []);
+
+  const cek = async () => {
+    const d = await refreshToken();
+    if (d.status=='error'){
+      router.push('/latihan/mentor/login');
+    }
+    console.log('dddddd');
+    console.log(d);
+  }
   return (
     <div className="grid">
     <div className="col-12">

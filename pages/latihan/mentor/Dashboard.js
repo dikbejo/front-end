@@ -21,7 +21,7 @@ const Dashboard = () => {
         const currentDate = new Date();
         if(expire * 1000 < currentDate.getTime()){
             try {
-            const resp = await axios.get('http://localhost:4000/login/refreshToken');
+            const resp = await axios.get(process.env.SERVER_API +'login/refreshToken');
             config.headers.Authorization = `Bearer ${resp.data.accessToken}`;
             setToken(resp.data.accessToken);
             const decoded = jwt_decode(resp.data.accessToken);
@@ -40,7 +40,7 @@ const Dashboard = () => {
 
     const refreshToken = async() => {
         try {
-            const res = await axios.get('http://localhost:4000/login/refreshToken');
+            const res = await axios.get(process.env.SERVER_API +'login/refreshToken');
             setToken(res.data.accessToken);
             const decoded = jwt_decode(res.data.accessToken);
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
     const getUsers = async () => {
         try {
-           const response = await axiosJWT.get('http://localhost:4000/login/getAllUsers',
+           const response = await axiosJWT.get(process.env.SERVER_API +'login/getAllUsers',
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -68,14 +68,29 @@ const Dashboard = () => {
             }
         }
     }
-
+    const getUsers2 = async () => {
+        try {
+           const response = await axios.get(process.env.SERVER_API +'login/getAllUsers',
+                {
+                    // headers: {
+                    //     Authorization: `Bearer ${token}`
+                    // }
+                });
+            console.log(response.data);
+        } catch (error) {
+            if (error.response) {
+                router.push("/latihan/mentor/login");
+            }
+        }
+    }
     const Logout = async() =>{
         try {
-            await axios.delete('http://localhost:4000/login/logout');
+            await axios.delete(process.env.SERVER_API +'login/logout');
         } catch (error) {
             console.log(error);
         }
     }
+
   return (
       <div className="grid">
           <div className="col-12">
@@ -84,6 +99,7 @@ const Dashboard = () => {
                   <button onClick={getUsers}>Liat users</button>
                   <p>hi is ia ad</p>
                   <button onClick={Logout}>Logout</button>
+                  <button onClick={getUsers2}>Liat users lagi</button>
               </div>
           </div>
       </div>

@@ -13,6 +13,8 @@ import { Checkbox } from 'primereact/checkbox'
 import { FileUpload } from 'primereact/fileupload';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
+import jwt_decode from 'jwt-decode';
+import { useRouter } from 'next/router';
 
 const ruangrapat = () => {
     const [ruangRapats, setRuangRapats] = useState(null);
@@ -29,13 +31,67 @@ const ruangrapat = () => {
     const dt = useRef(null);
     const [checked, setChecked] = useState(false);
 
+    const [iduser,setIduser] = useState('');
+    const [nmuser,setNmuser] = useState('');
+    const [token,setToken] = useState('');
+    const [expire,setExpire] = useState('');
+    const router = useRouter();
+
+
+    useEffect(()=>{
+        refreshToken();
+    },[]);
+
     useEffect(() => {
         getruangRapats();
     }, []);
 
+    const axiosJWT = axios.create();
+
+    axiosJWT.interceptors.request.use(async(config) =>{
+        const currentDate = new Date();
+        if(expire * 1000 < currentDate.getTime()){
+            try {
+            const resp = await axios.get(process.env.SERVER_API +'login/refreshToken');
+            config.headers.Authorization = `Bearer ${resp.data.accessToken}`;
+            setToken(resp.data.accessToken);
+            const decoded = jwt_decode(resp.data.accessToken);
+            setNmuser(decoded.nmuser);
+            setExpire(decoded.exp);
+        } catch (error) {
+            if(error.response){
+                router.push(process.env.LOGIN_PAGE);
+            }
+        }
+        }
+        return config;
+    },(error)=>{
+        return Promise.reject(error);
+    });
+
+    const refreshToken = async() => {
+        try {
+            const res = await axios.get(process.env.SERVER_API +'login/refreshToken',);
+            setToken(res.data.accessToken);
+            const decoded = jwt_decode(res.data.accessToken);
+
+            setNmuser(decoded.nmuser);
+            setExpire(decoded.exp);
+        } catch (error) {
+            if(error.response){
+                router.push(process.env.LOGIN_PAGE);
+            }
+        }
+    }
+
     const getruangRapats = async () => {
         try {
-            const res = await axios.get(process.env.SERVER_API + 'ruangRapat/getRuangRapats');
+            const res = await axiosJWT.get(process.env.SERVER_API + 'ruangRapat/getRuangRapatsAuth',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setRuangRapats(res.data.data);
         } catch (error) {
             console.log(error);
@@ -66,12 +122,15 @@ const ruangrapat = () => {
         setSubmitted(true);
 
         if (ruangRapat.nmrapat.trim() && ruangRapat.letak.trim()) {
-            const operasi = ruangRapat.kdrapat != null ? 'updateRuangRapat' : 'insertRuangRapat';
+            const operasi = ruangRapat.kdrapat != null ? 'updateRuangRapatAuth' : 'insertRuangRapatAuth';
             try {
-                const res = await axios.post(process.env.SERVER_API + 'ruangRapat/' + operasi, {
+                const res = await axiosJWT.post(process.env.SERVER_API + 'ruangRapat/' + operasi, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
                     data: ruangRapat
                 });
-                toast.current.show({ severity: 'success', summary: 'Successful', detail:  "Data Sukses disimpan", life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: "Data Sukses disimpan", life: 3000 });
                 setRuangRapatDialog(false);
                 setRuangRapat(emptyRuangRapat);
                 await getruangRapats();
@@ -113,7 +172,10 @@ const ruangrapat = () => {
 
     const deleteRuangRapat = async() => {
         try {
-            const res = await axios.post(process.env.SERVER_API + 'ruangRapat/deleteRuangRapat', {
+            const res = await axiosJWT.post(process.env.SERVER_API + 'ruangRapat/deleteRuangRapatAuth', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
                 kdrapat: ruangRapat.kdrapat
             });
             toast.current.show({ severity: 'success', summary: 'Successful', detail: "Delete sukses", life: 3000 });

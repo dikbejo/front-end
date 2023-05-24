@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 // import { refreshToken } from '../demo/service/AuthUtil';
 
 export default function MyApp({ Component, pageProps }) {
-
+    // console.log('_app');
     // console.log(d);
     // console.log(Cookies.get('token'));
     // console.log(JSON.stringify(Cookies.get('token')));

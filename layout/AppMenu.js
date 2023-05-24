@@ -16,11 +16,12 @@ const AppMenu = () => {
             label: 'Latihan',
             items: [
                 { label: 'Ruang Rapat', icon: 'pi pi-fw pi-eye', to: '/latihan/mentor/ruangrapat', badge: 'NEW' },
-                { label: 'Mockup', icon: 'pi pi-fw pi-id-card', to: '/latihan/mentor/mockup' },
+                { label: 'Ruang Rapat dengan Login', icon: 'pi pi-fw pi-eye', to: '/latihan/mentor/ruangrapatAuth'},
+                { label: 'Mockup MSIB', icon: 'pi pi-fw pi-id-card', to: '/latihan/mentor/mockup' },
                 { label: 'Login', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/login' },
                 { label: 'Coba', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/coba' },
                 { label: 'Dashboard', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/Dashboard' },
-                { label: 'Harus Login', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/HarusLogin' },
+                // { label: 'Harus Login', icon: 'pi pi-fw pi-sign-in', to: '/latihan/mentor/HarusLogin' },
             ]
         },
         {

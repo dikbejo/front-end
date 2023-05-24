@@ -95,7 +95,8 @@ const LoginPage = () => {
             const token = jwt_decode(res.data.accessToken);
             Cookies.set('token', JSON.stringify(token),{expires: token.exp-5});
             // console.log(res.data.accessToken);
-            router.push("/latihan/mentor/Dashboard");
+            // router.push("/latihan/mentor/Dashboard");
+            router.push("/");
         } catch (error) {
             if (error.response){
                 console.log(error.response.data.msg);
